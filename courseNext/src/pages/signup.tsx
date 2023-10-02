@@ -1,6 +1,7 @@
 import { userState } from "@/store/atoms/user"
 import { Button, Card, Grid, TextField, Typography } from "@mui/material"
 import axios from "axios"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useSetRecoilState } from "recoil"
@@ -52,16 +53,25 @@ const Signup = () => {
                 <Button 
                     variant="contained"
                     onClick={async() => {
+                        try{
                             const response = await axios.post("/api/routes/admin/signup",{
-                                email : "hi" ,
-                                password : "yo"
+                                email : email ,
+                                password : password
                             })
                             const data = response.data;
                             console.log(data.message);
+                        }catch(err){
+                            console.error(err)
+                        }
                     }}
                 >
                     Sign up
                 </Button>
+                <div>
+                    <Link href = "/course">
+                        course
+                    </Link>
+                </div>
             </Card>
         </div>
     </div>

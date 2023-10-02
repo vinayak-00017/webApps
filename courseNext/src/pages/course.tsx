@@ -1,11 +1,15 @@
 import { Course } from "@/store/atoms/course";
 import { Button, Card, Typography } from "@mui/material";
+import axios from "axios";
+import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 
 
 
-function Course({course} : {course : Course}){
+export default function Course({message} : any){
     const router = useRouter();
+
+    
 
     return <Card style={{
         margin  : 10,
@@ -14,7 +18,7 @@ function Course({course} : {course : Course}){
         padding : 20
     }}>
         <Typography textAlign={"center"} variant="h5">
-           TITLE 
+           {JSON.stringify(message)}
         </Typography>
         <Typography textAlign={"center"} variant="subtitle1">
             Description
@@ -32,5 +36,18 @@ function Course({course} : {course : Course}){
 }
 
 
-export default Course;
+Course.getInitialProps = async(context  : NextPageContext )=>{
+    const cookie = context.req?.headers.cookie;
+
+    const response = await axios("http://localhost:3000/api/routes/admin/courses",{
+        headers : {
+            cookie : cookie!
+        }
+    })
+    const json = response.data.message
+    return {message : json}
+}
+
+
+
 

@@ -1,15 +1,25 @@
 import { Course } from "@/store/atoms/course";
+import { userState } from "@/store/atoms/user";
+import { UserEmail } from "@/store/selectors/userEmail";
 import { Button, Card, Typography } from "@mui/material";
 import axios from "axios";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+
 
 
 
 export default function Course({message} : any){
     const router = useRouter();
+    const isEmail = useRecoilValue(UserEmail)
+    // const setUser = useSetRecoilState(userState)
 
-    
+    // setUser({
+    //     isLoading: false,
+    //     userEmail : "F"
+    // })
+    console.log(isEmail)
 
     return <Card style={{
         margin  : 10,
@@ -36,17 +46,17 @@ export default function Course({message} : any){
 }
 
 
-Course.getInitialProps = async(context  : NextPageContext )=>{
-    const cookie = context.req?.headers.cookie;
+// Course.getInitialProps = async(context  : NextPageContext )=>{
+//     const cookie = context.req?.headers.cookie;
 
-    const response = await axios("http://localhost:3000/api/routes/admin/courses",{
-        headers : {
-            cookie : cookie!
-        }
-    })
-    const json = response.data.message
-    return {message : json}
-}
+//     const response = await axios("http://localhost:3000/api/routes/admin/courses",{
+//         headers : {
+//             cookie : cookie!
+//         }
+//     })
+//     const json = response.data.message
+//     return {message : json}
+// }
 
 
 

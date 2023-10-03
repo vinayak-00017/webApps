@@ -1,10 +1,11 @@
 import { userState } from "@/store/atoms/user"
+import { UserEmail } from "@/store/selectors/userEmail"
 import { Button, Card, Grid, TextField, Typography } from "@mui/material"
 import axios from "axios"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useState } from "react"
-import { useSetRecoilState } from "recoil"
+import { use, useState } from "react"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 
 
 const Signup = () => {
@@ -13,6 +14,12 @@ const Signup = () => {
     const [email,setEmail] = useState("")
     const [password, setPassword] = useState("")
     const router = useRouter();
+    const isEmail = useRecoilValue(UserEmail)
+
+    console.log(isEmail)
+    if(isEmail){
+        router.push("/course")
+    }
 
     return <div>
         <div style={{
@@ -22,7 +29,7 @@ const Signup = () => {
             justifyContent : "center"
         }}>
             <Typography variant={"h6"}>
-                Welcome to Coursera. 
+                Welcome to LVLup. 
             </Typography>
         </div>
         <div style={{display:"flex" , justifyContent : "center"}}>
@@ -57,6 +64,10 @@ const Signup = () => {
                             const response = await axios.post("/api/routes/admin/signup",{
                                 email : email ,
                                 password : password
+                            })
+                            setUser({
+                                isLoading : true,
+                                userEmail : email
                             })
                             const data = response.data;
                             console.log(data.message);

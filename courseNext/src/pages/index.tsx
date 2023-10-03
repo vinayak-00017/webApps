@@ -1,6 +1,6 @@
 
 import { isUserLoading} from '@/store/selectors/isUserLoading';
-import { isUserEmail } from '@/store/selectors/userEmail';
+import { UserEmail } from '@/store/selectors/userEmail';
 import { useRouter } from 'next/router'
 import { useRecoilValue } from 'recoil';
 import {Grid, Typography,Button} from "@mui/material";
@@ -10,7 +10,7 @@ import {Grid, Typography,Button} from "@mui/material";
 export default function Home() {
   const router = useRouter();
 
-  const userEmail = useRecoilValue(isUserEmail);
+  const userEmail = useRecoilValue(UserEmail);
   const userLoading = useRecoilValue(isUserLoading);
 
 
@@ -19,7 +19,7 @@ export default function Home() {
       <Grid item xs={12} md={6} lg={6}>
           <div style={{marginTop: 100}}>
               <Typography variant={"h2"}>
-                  Coursera Admin
+                  LVLup Admin
               </Typography>
               <Typography variant={"h5"}>
                   A place to learn, earn and grow 

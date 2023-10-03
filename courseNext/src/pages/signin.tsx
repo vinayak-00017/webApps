@@ -1,17 +1,23 @@
 import { userState } from "@/store/atoms/user"
+import { UserEmail } from "@/store/selectors/userEmail"
 import { Button, Card, Grid, TextField, Typography } from "@mui/material"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { useSetRecoilState } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 
 
 const Signin = () => {
 
     const setUser = useSetRecoilState(userState)
+    const isEmail = useRecoilValue(UserEmail)
     const [email,setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const router = useRouter();
+    const router = useRouter(); 
+
+    if(isEmail){
+        router.push("/course")
+    }
 
     return <div>
         <div style={{
@@ -21,7 +27,7 @@ const Signin = () => {
             justifyContent : "center"
         }}>
             <Typography variant={"h6"}>
-                Welcome back to Coursera. 
+                Welcome back to LVLup. 
             </Typography>
         </div>
         <div style={{display:"flex" , justifyContent : "center"}}>
@@ -57,6 +63,12 @@ const Signin = () => {
                                 email : email ,
                                 password : password
                             })
+                            setUser ({
+                                isLoading : true,
+                                userEmail : email
+                            })
+                            router.push("/course")
+                            
                             const data = response.data;
                             console.log(data.message);
                         }catch(err){
@@ -73,6 +85,7 @@ const Signin = () => {
                             const response = await axios.post("/api/routes/admin/courses",{
                                 
                             })
+                           
                             const data = response.data;
                             console.log(data.message);
                         }catch(err){

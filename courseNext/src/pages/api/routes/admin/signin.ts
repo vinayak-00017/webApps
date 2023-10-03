@@ -7,6 +7,9 @@ import { sign } from "jsonwebtoken";
 import cookie from "cookie";
 
 import authenticated from "../../middleware/auth";
+import { useRouter } from "next/router";
+import { useSetRecoilState } from "recoil";
+import { userState } from "@/store/atoms/user";
 
 type Data = {
     message : string
@@ -16,12 +19,11 @@ interface AuthResponse {
     authToken : string 
 }
 
-
 const handler = async(
     req : NextApiRequest,
     res : NextApiResponse
 ) => {
-    if(req.method === "POST"){           
+    if(req.method === "POST"){      
         const {email} = req.body;
         await connectMongo();
         const admin = await Admin.findOne({email})
@@ -39,6 +41,7 @@ const handler = async(
                         path : '/'
                     }))
                     res.json({message : "logged in"})
+        
                     
                 }else{
                     res.json({message : "opps, something went wrong"})

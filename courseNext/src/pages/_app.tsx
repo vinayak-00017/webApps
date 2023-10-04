@@ -5,6 +5,7 @@ import { Appbar } from './appbar'
 import { userState } from '@/store/atoms/user'
 import { useEffect } from 'react'
 import axios from 'axios'
+import {cookies} from 'next/headers'
 
 export default function App({ Component, pageProps }: AppProps) {
   return <RecoilRoot>
@@ -15,23 +16,26 @@ export default function App({ Component, pageProps }: AppProps) {
 
 }
 
-function getCookie(cookieName : string){
-  const cookies = document.cookie.split(';')
-  for(let i =0 ; i< cookies.length; i++){
-    const cookie = cookies[i].trim();
-    if (cookie.startsWith(cookieName + "=")){
-      return cookie.substring(cookie.length + 1)
-    }
-  }
-  return null;
-}
+// function getCookie(cookieName : string){
+//   const cookies = document.cookie.split(';')
+//   console.log(cookies)
+//   for(let i =0 ; i< cookies.length; i++){
+//     const cookie = cookies[i].trim();
+//     if (cookie.startsWith(cookieName + "=")){
+//       return cookie.substring(cookie.length + 1)
+//     }
+//   }
+//   return null;3
+// }
 
 function InitUser(){
   const setUser = useSetRecoilState(userState)
 
   useEffect(()=> {
     const init = async() => {
-      const cookie = getCookie("auth")
+      const cookieStore = cookies()
+      const cookie = cookieStore.get('auth')
+      console.log(cookie)
 
       try{
         const response = await axios.get("http://localhost:3000/api/routes/admin/init", {

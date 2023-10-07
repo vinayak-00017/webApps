@@ -5,7 +5,9 @@ import { Button, Card, Typography } from "@mui/material";
 import axios from "axios";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
+import Router from "next/router"
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import authenticated from "./api/middleware/auth";
 
 
 
@@ -20,6 +22,12 @@ export default function Course({message} : any){
     //     userEmail : "F"
     // })
     console.log(isEmail)
+
+    if(!message){
+        return <div>
+            OPPS !!
+        </div>
+    }
 
     return <Card style={{
         margin  : 10,
@@ -46,17 +54,39 @@ export default function Course({message} : any){
 }
 
 
-// Course.getInitialProps = async(context  : NextPageContext )=>{
-//     const cookie = context.req?.headers.cookie;
+Course.getInitialProps = async(context  : NextPageContext )=>{
+    const cookie = context.req?.headers.cookie;
 
-//     const response = await axios("http://localhost:3000/api/routes/admin/courses",{
-//         headers : {
-//             cookie : cookie!
-//         }
-//     })
-//     const json = response.data.message
-//     return {message : json}
-// }
+    // const authSession = authenticated(ctx)
+    try{
+        const response = await axios("http://localhost:3000/api/routes/admin/courses",{
+            headers : {
+                cookie : cookie!
+            }
+        })
+        if(response.status === 401 && !context.req){
+            Router.replace("/signin")
+            return {};
+        }
+        if(response.status === 401 && context.req){
+            context.res?.writeHead(302,{
+                Location : 'http://localhost:3000/signin'
+            })
+            context.res?.end();
+            return;
+        }
+       
+            const json = await  response.data.message;
+            return {message : json}
+    
+       
+    }catch(err){
+        console.error(err)
+    }
+     
+    return {}
+    
+}
 
 
 

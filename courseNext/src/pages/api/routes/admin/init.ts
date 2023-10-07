@@ -9,6 +9,10 @@ const authenticated = () => async(
 ) => {
     const cookie = req.headers.auth;
     console.log(cookie)
+    if (typeof cookie !== "string") {
+        res.status(500).json({ message: "Invalid authentication cookie" });
+        return;
+      }
     verify(cookie , `${process.env.admin_secret}` , async function(err, decoded) {
         if (!err && decoded){
             res.json({status : 200})

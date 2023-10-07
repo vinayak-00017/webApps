@@ -6,6 +6,7 @@ import { userState } from '@/store/atoms/user'
 import { useEffect } from 'react'
 import axios from 'axios'
 import {cookies} from 'next/headers'
+import { NextPageContext } from 'next'
 
 export default function App({ Component, pageProps }: AppProps) {
   return <RecoilRoot>
@@ -28,19 +29,16 @@ export default function App({ Component, pageProps }: AppProps) {
 //   return null;3
 // }
 
+
 function InitUser(){
   const setUser = useSetRecoilState(userState)
 
   useEffect(()=> {
     const init = async() => {
-      const cookieStore = cookies()
-      const cookie = cookieStore.get('auth')
-      console.log(cookie)
-
       try{
         const response = await axios.get("http://localhost:3000/api/routes/admin/init", {
           headers : {
-            auth : cookie
+          cookie : document.cookie
           }
         })
         if(response.data.status == 200){
@@ -55,4 +53,9 @@ function InitUser(){
   },[setUser])
 
   return <></>
+}
+
+App.getServerSideProps  = async(ctx : NextPageContext) => {
+  const cookie = ctx.req?.headers.cookie;
+
 }

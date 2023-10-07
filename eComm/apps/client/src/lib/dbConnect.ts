@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { env } from "process";
 let alreadyDone = false;
 
 export async function ensureDbConnected(){
@@ -6,5 +7,5 @@ export async function ensureDbConnected(){
         return;
     }
     alreadyDone = true;
-    await mongoose.connect("mongodb+srv://ea3y:2NWuD7oy3Hhhunzr@cluster0.vhxkjn2.mongodb.net/nextEcomm",{dbName : "nextEcomm"})
+    await mongoose.connect(`${env.MONGO_URL}`,{dbName : "nextEcomm"})
 }

@@ -7,5 +7,5 @@ export async function ensureDbConnected(){
         return;
     }
     alreadyDone = true;
-    await mongoose.connect(`${env.MONGO_URL}`,{dbName : "nextEcomm"})
+    await mongoose.connect(`${env.MONGO_URL}`,{dbName : `${env.DB_NAME}`})
 }

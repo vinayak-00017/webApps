@@ -9,4 +9,4 @@ const handler = async(
     res.json({message : "done"})
 }
 
-export default authenticated(handler);
+export default handler;

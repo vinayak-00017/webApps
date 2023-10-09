@@ -4,21 +4,24 @@ import { cookies } from "next/headers"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useRecoilValue } from "recoil"
+import authenticated from "./api/middleware/auth"
+import { signIn, signOut, useSession } from "next-auth/react"
 
 
 
 export const Appbar = () => {
     const router = useRouter()
-    const isEmail = useRecoilValue(UserEmail)
+    const {data : session} = useSession();
 
 
-function deleteCookie(name : string) {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  }     
+const handleSignin = async() => {
+    await signIn();
+    router.push('/course')
+}    
 
-      
+   
 
-    return(isEmail)?(
+    return(session)?(
         <div style= {{
             display : "flex", 
             justifyContent : "space-between"
@@ -31,8 +34,8 @@ function deleteCookie(name : string) {
             }}>
                 <div>
                     <Button onClick={() => {
-                        deleteCookie("auth")
-                        router.push("/signin")
+                        signOut()
+                        router.push('/')
                     }}>
                         Signout
                     </Button>
@@ -50,23 +53,11 @@ function deleteCookie(name : string) {
             display : "flex"
         }}>
             <div>
-                <Button onClick={() => {
-                    router.push("/signin")
-                }}>
+                <Button onClick={handleSignin}>
                     Signin
-                </Button>
-            </div>
-            <div>
-                <Button onClick={() => {
-                    router.push("/signup")
-                }}>
-                    Signup
                 </Button>
             </div>
         </div>
     </div>)
 }
 
-Appbar.getInitialProps = async() => {
-    
-}

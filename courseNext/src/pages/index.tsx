@@ -4,12 +4,13 @@ import { UserEmail } from '@/store/selectors/userEmail';
 import { useRouter } from 'next/router'
 import { useRecoilValue } from 'recoil';
 import {Grid, Typography,Button} from "@mui/material";
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 
 
 export default function Home() {
   const router = useRouter();
-
+  const {data : session} = useSession();
   const userEmail = useRecoilValue(UserEmail);
   const userLoading = useRecoilValue(isUserLoading);
 
@@ -25,22 +26,14 @@ export default function Home() {
                   A place to learn, earn and grow 
               </Typography>
             
-              {userLoading && !userEmail &&  <div style={{display: "flex", marginTop: 20}}>
-                  <div style={{marginRight: 10}}>
-                      <Button
-                          size={"large"}
-                          variant={"contained"}
-                          onClick={() => {
-                            router.push("/signup")
-                          }}
-                      >Signup</Button>
-                  </div>
+              {!session &&  <div style={{display: "flex", marginTop: 20}}> 
+
                   <div>
                       <Button
                           size={"large"}
                           variant={"contained"}
                           onClick={() => {
-                            router.push("/signin")
+                           signIn()
                           }}
                       >Signin</Button>
                   </div>

@@ -7,13 +7,15 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import {cookies} from 'next/headers'
 import { NextPageContext } from 'next'
+import { SessionProvider } from 'next-auth/react'
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <RecoilRoot>
-    <Appbar></Appbar>
-    <InitUser/>
+  return<SessionProvider session={pageProps.session}>
+  <RecoilRoot>
+    <Appbar></Appbar>   
     <Component {...pageProps} />
   </RecoilRoot>
+  </SessionProvider> 
 
 }
 
@@ -29,33 +31,3 @@ export default function App({ Component, pageProps }: AppProps) {
 //   return null;3
 // }
 
-
-function InitUser(){
-  const setUser = useSetRecoilState(userState)
-
-  useEffect(()=> {
-    const init = async() => {
-      try{
-        const response = await axios.get("http://localhost:3000/api/routes/admin/init", {
-          headers : {
-          cookie : document.cookie
-          }
-        })
-        if(response.data.status == 200){
-          console.log("finally")
-        }
-
-      }catch(error){
-        console.error(error)
-      }
-    }
-    init();
-  },[setUser])
-
-  return <></>
-}
-
-App.getServerSideProps  = async(ctx : NextPageContext) => {
-  const cookie = ctx.req?.headers.cookie;
-
-}

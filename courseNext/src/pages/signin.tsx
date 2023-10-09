@@ -78,23 +78,6 @@ const Signin = () => {
                 >
                     Sign in
                 </Button>
-                <Button 
-                    variant="contained"
-                    onClick={async() => {
-                        try{
-                            const response = await axios.post("/api/routes/admin/courses",{
-                                
-                            })
-                           
-                            const data = response.data;
-                            console.log(data.message);
-                        }catch(err){
-                            console.error(err)
-                        }                      
-                    }}
-                >
-                    courses
-                </Button>
             </Card>
         </div>
     </div>

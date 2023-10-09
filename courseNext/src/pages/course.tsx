@@ -8,28 +8,19 @@ import { useRouter } from "next/router";
 import Router from "next/router"
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import authenticated from "./api/middleware/auth";
+import { useSession } from "next-auth/react";
 
 
 
 
 export default function Course({message} : any){
     const router = useRouter();
+    const {data : session} = useSession()
     const isEmail = useRecoilValue(UserEmail)
-    // const setUser = useSetRecoilState(userState)
 
-    // setUser({
-    //     isLoading: false,
-    //     userEmail : "F"
-    // })
-    console.log(isEmail)
-
-    if(!message){
-        return <div>
-            OPPS !!
-        </div>
-    }
-
-    return <Card style={{
+ 
+    
+    return(session)?(<Card style={{
         margin  : 10,
         width : 300,
         minHeight : 200,
@@ -50,8 +41,13 @@ export default function Course({message} : any){
             </Button>
         </div>
 
-    </Card>
+    </Card>):(
+        <div>
+            OOPS!!!
+        </div>
+    )
 }
+
 
 
 Course.getInitialProps = async(context  : NextPageContext )=>{

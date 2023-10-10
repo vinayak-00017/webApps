@@ -7,6 +7,7 @@ import { userState } from "../store/atoms/user.js";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Typography } from "@mui/material";
 
 export const Signup = () => {
 
@@ -16,7 +17,22 @@ export const Signup = () => {
     const navigate = useNavigate();
 
 
-    return <div>
+    return<div>
+     <div style={{
+      paddingTop: 80,
+      marginBottom: 10,
+      display: "flex",
+      justifyContent: "center"
+  }}>
+     <Typography variant={"h2"} fontSize={100} style={{
+                    color : "white",
+                    fontFamily :  'scribble',
+                    
+                }}>
+                Notesy
+      </Typography>
+    </div>
+    <div style={{display: "flex", justifyContent: "center"}}>
          <Box
       component="form"
       sx={{
@@ -50,6 +66,6 @@ export const Signup = () => {
             navigate("/notes")
 
         }}>Signup</Button>
-
+    </div>
     </div>
 }

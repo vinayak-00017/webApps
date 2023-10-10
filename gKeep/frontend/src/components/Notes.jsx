@@ -104,7 +104,7 @@ export const Notes = () => {
         justifyContent : "center"
 
     }}>
-        <Card variant = {'outlined'} style = {{width : 600,padding: 10,marginTop: 10 , backgroundColor : `${color}90`}}>
+        <Card variant = {'outlined'} style = {{width : 600,padding: 10,marginTop: 10 , backgroundColor : `${color}50`}}>
         
             <div>
                  <TextField

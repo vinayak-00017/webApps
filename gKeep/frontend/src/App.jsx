@@ -9,21 +9,35 @@ import {Notes} from "./components/Notes.jsx";
 import { RecoilRoot , useSetRecoilState} from 'recoil';
 import { userState } from './store/atoms/user.js';
 import { Appbar } from './components/Appbar.jsx';
+import PrimarySearchAppBar from './components/PrimarySearchAppBar.jsx';
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
+import { orange } from '@mui/material/colors';
 
 function App() {
+  const theme = createTheme({
+    palette : {
+      mode : 'dark',
+      primary : {
+        main : orange[500]
+      }
+    }
+  }) 
  
   return (
     <div style={{width: "100vw",
     height : "1000vh",
-    backgroundColor : "#eeeeee",
+    backgroundColor : "#111111",
     margin: 0,
     padding: 0, 
     // box-sizing: border-box, 
    
 }}>
+  <ThemeProvider theme={theme}>
     <RecoilRoot>
       <Router>
-        <Appbar/>
+        {/* <Appbar/> */}
+        <PrimarySearchAppBar/>
         <InitUser/>
         <Routes>
           <Route path={"/signin"} element={<Signin />} />
@@ -33,7 +47,7 @@ function App() {
         </Routes>
       </Router>
     </RecoilRoot>
-   
+  </ThemeProvider>
     </div>
   )
 }

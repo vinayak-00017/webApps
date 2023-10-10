@@ -9,6 +9,7 @@ import { userState } from "../store/atoms/user";
 import { isUserLoading } from "../store/selectors/isUserLoading";
 import { Button,CircularProgress} from "@mui/material"
 
+
 export const Landing = () => {
     const navigate = useNavigate();
     const userLogin= useRecoilValue(isUserLogin);
@@ -33,20 +34,7 @@ export const Landing = () => {
     if(userLogin){
         navigate("/notes")
     }else{
-        return <div>      
-        <div>
-            Google Keep
-        </div>
-        <Button 
-        variant="contained" 
-        onClick={() => navigate( "/Signin")}
-        >Login</Button>
-        <Button 
-        variant="contained" 
-        onClick={() => navigate( "/Signup")}
-        >Signup</Button>
-        
-    </div>
+        navigate('signin')
     }
 
 }

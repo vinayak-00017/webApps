@@ -5,6 +5,7 @@ import { isUserLogin } from "../store/selectors/isUserLogin";
 import { userState } from "../store/atoms/user";
 import { isUserLoading } from "../store/selectors/isUserLoading";
 
+
 export const Appbar = () => {
 
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ export const Appbar = () => {
     const userLoading = useRecoilValue(isUserLoading)
 
 
-    if(userLoading === true){
+    if(userLoading){
         return <div style={{
                     display : "flex",
                     justifyContent : "space-between",
@@ -50,7 +51,7 @@ export const Appbar = () => {
         fontSize={25}
        onClick = {() => {
         if(userLogin){
-            window.location.reload();}else{
+            window.location.reload()}else{
                 navigate("/")
             }}}
         variant="h5"

@@ -1,4 +1,10 @@
 
+@font-face {
+    font-family: scribble;
+    src: url('./fonts/Handodle.ttf') format('truetype');
+}
+
+
 * { 
     margin: 0; 
     /* padding: 0;  */

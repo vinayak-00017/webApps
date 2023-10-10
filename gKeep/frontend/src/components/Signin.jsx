@@ -4,7 +4,6 @@ import { BASE_URL } from "../config"
 import { useNavigate } from "react-router-dom"
 import { useRecoilState, useSetRecoilState } from "recoil"
 import { userState } from "../store/atoms/user"
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Card, Typography } from "@mui/material"
@@ -21,12 +20,16 @@ export const Signin = () => {
 
     return <div  >
         <div style={{
-                paddingTop: 100,
+                paddingTop: 80,
                 marginBottom: 10,
                 display: "flex",
                 justifyContent: "center"
             }}>
-                <Typography variant={"h6"} fontSize={40}>
+                <Typography variant={"h2"} fontSize={100} style={{
+                    color : "white",
+                    fontFamily :  'scribble',
+                    
+                }}>
                 Notesy
                 </Typography>
             </div>

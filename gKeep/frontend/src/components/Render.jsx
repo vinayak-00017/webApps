@@ -12,9 +12,12 @@ import {
     DialogContent,
     DialogActions,
     TextField,
+    CircularProgress,
   } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import { isUserLoading } from "../store/selectors/isUserLoading";
+import { useRecoilValue } from "recoil";
 
 
 
@@ -24,6 +27,22 @@ export default function Render({note,setNotes}){
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [color,setColor] = useState(note.bgColor);
     const [isColorDialogOpen,setIsColorDialogOpen] = useState(false);
+    const userLoading = useRecoilValue(isUserLoading)
+
+    if(userLoading){
+        return  <div style={{
+            display : "flex",
+            justifyContent : "space-between",
+            padding : 50
+            }}>
+        
+          <div style={{ display: "flex", justifyContent: "center", padding: 5 }}>
+            <CircularProgress /> {/* Display a loading spinner */}
+        </div>
+</div>
+    }
+
+
 
     const openColorPopover = () => {
         return <Popover
@@ -102,31 +121,37 @@ export default function Render({note,setNotes}){
         notes.filter((item) => item._id !== note._id)
       );
       setIsEditing(false);
-      setIsEditDialogOpen(false);
-  
+      setIsEditDialogOpen(false); 
     }
 
-    return <div >
+
+    return  <div style={{display: "flex"}}>
         
              <Card style={{
             margin: 10,
             marginTop : 50,
+            minWidth: 200,
             maxWidth: 300,
             minHeight: 20,
             padding: 10,
-            backgroundColor : `${note.bgColor}90`,
+            backgroundColor : `${note.bgColor}50`,
             cursor: "pointer"
             
         }}
         onClick = {handleEditClick}
         >
             <CardContent>
-                <Typography
-                variant="body1"
-                style={{maxWidth : '100%'}}
+                <p
+                style={{
+                    wordBreak: "break-all",
+                    whiteSpace: "normal",
+                    fontFamily: "scribble",
+                    fontWeight : 600
+                    }}
                 >
                     {note.note}
-                </Typography>                      
+                </p>
+                            
                 
             </CardContent>     
         </Card>    
@@ -134,9 +159,9 @@ export default function Render({note,setNotes}){
             backgroundColor : "#00000050",
             }}>
         <DialogTitle style={{ width : 500, 
-            backgroundColor : `${note.bgColor}90`
+            backgroundColor : `${note.bgColor}50`
             }}>Edit Note</DialogTitle>
-        <DialogContent style={{backgroundColor : `${note.bgColor}90`}}>
+        <DialogContent style={{backgroundColor : `${note.bgColor}50`}}>
           <TextField
             multiline
             fullWidth
@@ -144,7 +169,7 @@ export default function Render({note,setNotes}){
             onChange={(e) => setEditedText(e.target.value)}
           />
         </DialogContent>
-        <DialogActions style={{backgroundColor : `${note.bgColor}90`}}>
+        <DialogActions style={{backgroundColor : `${note.bgColor}50`}}>
         <div style={{display: "flex" , justifyContent : "right" }}>
                 <Button style={{ textTransform : "none"}}
                         onClick={handleDelete}                    
@@ -173,5 +198,4 @@ export default function Render({note,setNotes}){
         </DialogActions>
       </Dialog>   
     </div>
-   
 }

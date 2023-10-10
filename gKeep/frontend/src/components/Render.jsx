@@ -43,6 +43,23 @@ export default function Render({note,setNotes}){
     }
 
 
+    const openColorDialog = (event) => {
+        setIsColorDialogOpen(true);
+    };
+      
+      const closeColorDialog = () => {
+        setIsColorDialogOpen(false);
+    };
+    
+    const handleColorChange = (newColor) => {
+        setColor(newColor.hex);
+    }  
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+        setIsEditDialogOpen(true);
+    };
+
 
     const openColorPopover = () => {
         return <Popover
@@ -68,28 +85,12 @@ export default function Render({note,setNotes}){
     </Popover>
     }
 
-    const openColorDialog = (event) => {
-        setIsColorDialogOpen(true);
-    };
-      
-      const closeColorDialog = () => {
-        setIsColorDialogOpen(false);
-    };
-    
-    const handleColorChange = (newColor) => {
-        setColor(newColor.hex);
-    }  
-
-    const handleEditClick = () => {
-        setIsEditing(true);
-        setIsEditDialogOpen(true);
-    };
     
     const handleSaveClick = async() => {
         setIsEditing(false);
         setIsEditDialogOpen(false);
 
-        if(note.note != editedText){
+        if(note.note != editedText || note.bgColor != color){
             const response = axios.put(`${BASE_URL}/user/note/${note._id}`, {
                 note: editedText,
                 bgColor : color
@@ -134,7 +135,7 @@ export default function Render({note,setNotes}){
             maxWidth: 300,
             minHeight: 20,
             padding: 10,
-            backgroundColor : `${note.bgColor}50`,
+            backgroundColor : `${color}50`,
             cursor: "pointer"
             
         }}
@@ -159,9 +160,9 @@ export default function Render({note,setNotes}){
             backgroundColor : "#00000050",
             }}>
         <DialogTitle style={{ width : 500, 
-            backgroundColor : `${note.bgColor}50`
+            backgroundColor : `${color}50`
             }}>Edit Note</DialogTitle>
-        <DialogContent style={{backgroundColor : `${note.bgColor}50`}}>
+        <DialogContent style={{backgroundColor : `${color}50`}}>
           <TextField
             multiline
             fullWidth
@@ -169,7 +170,7 @@ export default function Render({note,setNotes}){
             onChange={(e) => setEditedText(e.target.value)}
           />
         </DialogContent>
-        <DialogActions style={{backgroundColor : `${note.bgColor}50`}}>
+        <DialogActions style={{backgroundColor : `${color}50`}}>
         <div style={{display: "flex" , justifyContent : "right" }}>
                 <Button style={{ textTransform : "none"}}
                         onClick={handleDelete}                    

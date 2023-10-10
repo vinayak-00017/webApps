@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Typography } from "@mui/material";
+import tagImage from "../assets/tag.png"
 
 export const Signup = () => {
 
@@ -15,11 +16,42 @@ export const Signup = () => {
     const [password,setPassword] = useState('')
     const setUserLogin = useSetRecoilState(userState)
     const navigate = useNavigate();
+    const [errorMessage,setErrorMessage] = useState("");
 
 
     return<div>
+      <div style={{
+        marginLeft : 400,
+        marginTop : 70,
+        position : "relative",
+        textAlign : "center"
+      }} >
+        <div style={{
+          
+        }}>
+          <img src={tagImage}
+              style={{
+                rotate : "290deg",
+                maxHeight : 80
+              }}
+          ></img>
+        </div>
+         
+      <div style={{
+        position : "absolute",
+        fontFamily : "scribble",
+        fontWeight : 600,
+        rotate : "-30deg",
+        color : "white",
+        top : '25%',
+        left : "49%"
+ 
+      }}>
+        signup
+      </div>
+      </div> 
      <div style={{
-      paddingTop: 80,
+      
       marginBottom: 10,
       display: "flex",
       justifyContent: "center"
@@ -51,9 +83,16 @@ export const Signup = () => {
       />
      
     </Box>
-    <Button 
+    </div>
+    <div style={{
+      display : "flex",
+      justifyContent : "center",
+      marginTop : 20
+    }}>
+    < Button 
         variant="contained" 
         onClick={ async()=>{
+          try{
             const response = await axios.post(`${BASE_URL}/user/signup` , {
                 username : email,
                 password : password
@@ -64,8 +103,20 @@ export const Signup = () => {
                 isUser : true
             })
             navigate("/notes")
+            }catch(err){
+              console.error('Error : ', err)
+              setErrorMessage("User already exists with this username")
+            }
 
         }}>Signup</Button>
+    </div>
+    <div style={{
+      display : "flex",
+      justifyContent : "center",
+      color : "red",
+      marginTop : 33
+    }}>
+      {errorMessage}
     </div>
     </div>
 }

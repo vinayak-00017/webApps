@@ -186,15 +186,23 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography
-            onClick={() => {      
-                  window.location.reload()}}
+            onClick={() => { if(userLogin){
+              window.location.reload()
+            }else{
+              navigate('/')
+            }  
+                  }}
             variant="h6"
             noWrap
             component="div"
-            style={{cursor : 'pointer'}}
+            style={{cursor : 'pointer',
+          fontFamily  : 'scribble',
+          fontWeight : 800,
+          fontSize : 35
+          }}
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            NOtesy
+            Notesy
           </Typography>
           <div style={{display : 'flex',
         justifyContent : 'center'

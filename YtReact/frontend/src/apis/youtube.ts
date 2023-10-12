@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const KEY = `${process.env.YT_API}`;
+const KEY = `${import.meta.env.VITE_YT_API}`;
 
 export default axios.create({
     baseURL: 'https://www.googleapis.com/youtube/v3',
